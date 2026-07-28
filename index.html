@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Juliano Streda</title>
+<meta name="description" content="Tráfego pago e aulas individuais pra quem quer vender mais ou aprender a fazer o próprio tráfego.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #F4ECDF;
+  --card: #FCF9F2;
+  --ink: #241E17;
+  --ink-soft: #665A4B;
+  --navy: #1E2732;
+  --navy-soft: #2B3844;
+  --accent: #C1461B;
+  --accent-dark: #93340F;
+  --blue: #4F7C9C;
+  --line: rgba(36, 30, 23, 0.14);
+
+  --font-display: "Fraunces", ui-serif, Georgia, serif;
+  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  --radius-lg: 26px;
+  --radius-md: 16px;
+  --shadow-card: 0 14px 32px -18px rgba(36, 30, 23, 0.32);
+  --shadow-soft: 0 18px 40px -20px rgba(30, 39, 50, 0.4);
+  --maxw: 520px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16.5px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; display: block; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 600; line-height: 1.15; margin: 0 0 0.45em; color: var(--ink); }
+p { margin: 0 0 1em; }
+a { color: inherit; }
+
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.reveal.is-visible { opacity: 1; transform: translateY(0); }
+@media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; } }
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 0 0 10px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 26px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 15.5px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+  font-family: var(--font-body);
+}
+.btn:active { transform: scale(0.97); }
+.btn-primary { background: var(--accent); color: #fff; box-shadow: var(--shadow-soft); }
+.btn-full { width: 100%; }
+
+/* HEADER */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 22px;
+  background: rgba(244, 236, 223, 0.9);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.wordmark {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 18px;
+  text-decoration: none;
+  letter-spacing: -0.01em;
+}
+.header-btn {
+  padding: 9px 18px;
+  font-size: 13.5px;
+}
+
+.wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 22px; }
+section { padding: 60px 0; }
+
+/* HERO */
+.hero { padding-top: 44px; padding-bottom: 50px; }
+.hero-photo {
+  width: 100%;
+  aspect-ratio: 4/5;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  margin-bottom: 26px;
+  background: var(--card);
+}
+.hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
+.hero h1 {
+  font-size: clamp(30px, 8vw, 38px);
+  letter-spacing: -0.01em;
+}
+.hero .lead {
+  font-size: 16.5px;
+  color: var(--ink-soft);
+  margin-bottom: 26px;
+}
+
+/* ABOUT */
+.about { padding-top: 20px; }
+.about-photo {
+  width: 100%;
+  aspect-ratio: 3/4;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  margin-bottom: 28px;
+  background: var(--card);
+}
+.about-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 25%; }
+
+.bullets {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 6px 22px;
+  margin: 26px 0;
+  box-shadow: var(--shadow-card);
+}
+.bullets li {
+  list-style: none;
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  padding: 16px 0;
+  font-size: 15.5px;
+  border-bottom: 1px solid var(--line);
+}
+.bullets li:last-child { border-bottom: none; }
+.bullets .num {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--accent);
+  font-size: 26px;
+  min-width: 38px;
+}
+.bullets-text {
+  list-style: none;
+  margin: 16px 0;
+  padding: 0;
+}
+.bullets-text li {
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--ink);
+  padding: 7px 0;
+}
+.bullets-text strong {
+  color: var(--accent-dark);
+  font-weight: 700;
+}
+
+.about p { color: var(--ink-soft); font-size: 15.8px; }
+.about .interesses { font-style: italic; color: var(--ink-soft); }
+.about a.handle { color: var(--accent-dark); font-weight: 600; text-decoration: none; border-bottom: 1.5px solid rgba(193,70,27,0.35); }
+
+/* CHOICE / SERVICES */
+.choice-head { text-align: center; margin-bottom: 30px; }
+.choice-head h2 { font-size: clamp(24px, 6vw, 30px); }
+
+.service-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 30px 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: var(--shadow-card);
+  text-decoration: none;
+  color: var(--ink);
+  margin-bottom: 20px;
+  position: relative;
+  transition: transform 0.15s ease;
+}
+.service-card:active { transform: scale(0.98); }
+.service-card .tag {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  color: var(--accent);
+}
+.service-card.hire .tag { color: var(--navy-soft); }
+.service-card h3 { font-size: 21px; margin-bottom: 2px; }
+.service-card p { color: var(--ink-soft); font-size: 15px; margin-bottom: 2px; }
+.service-card .go {
+  align-self: flex-end;
+  font-weight: 700;
+  color: var(--accent);
+  font-size: 14.5px;
+  margin-top: 6px;
+}
+.service-card.hire .go { color: var(--navy-soft); }
+.service-card.hire { border-color: rgba(30,39,50,0.18); }
+
+/* FOOTER */
+.site-footer {
+  background: var(--navy);
+  color: #F4ECDF;
+  text-align: center;
+  padding: 46px 22px 34px;
+  margin-top: 20px;
+}
+.footer-signature { font-family: var(--font-display); font-size: 20px; margin-bottom: 12px; }
+.footer-links a { text-decoration: none; font-weight: 600; font-size: 14px; opacity: 0.9; color: #F4ECDF; }
+.footer-links a:hover { opacity: 1; text-decoration: underline; }
+.footer-copy { font-size: 12.5px; opacity: 0.55; margin: 16px 0 0; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="#hero" class="wordmark">Juliano Streda</a>
+  <a href="#escolha" class="btn btn-primary header-btn">Fale comigo</a>
+</header>
+
+<main>
+
+  <section class="hero wrap" id="hero">
+    <div class="hero-photo reveal">
+      <img src="foto-mesa.jpg" alt="Juliano Streda" onerror="this.parentElement.style.display='none'">
+    </div>
+    <div class="reveal">
+      <p class="eyebrow">Tráfego pago &amp; vendas</p>
+      <h1>Juliano Streda</h1>
+      <p class="eyebrow" style="margin-top:6px;">Quem sou eu</p>
+      <ul class="bullets-text">
+        <li><strong>8 anos</strong> de experiência em vendas</li>
+        <li><strong>5 anos</strong> como gestor de tráfego pago</li>
+        <li><strong>4 anos</strong> como empresário no ramo Apple</li>
+      </ul>
+      <p style="font-weight:600; color:var(--ink);">Hoje ensino empresários e futuros gestores de tráfego tudo que eu sei sobre vendas e tráfego pago.</p>
+    </div>
+  </section>
+
+  <section class="about wrap" id="sobre">
+    <div class="about-photo reveal">
+      <img src="foto-sacada.jpg" alt="Juliano Streda" onerror="this.parentElement.style.display='none'">
+    </div>
+
+    <div class="reveal">
+      <p>Virei vendedor por necessidade, não por vocação. Aprendi na marra — literalmente batendo de porta em porta vendendo internet numa empresa de telecom. Foi ali que entendi: vendas não é um bico, é profissão pra vida toda.</p>
+      <p>O tráfego pago entrou depois, quando tentei vender infoproduto e percebi que precisava aprender a atrair gente antes de vender pra ela.</p>
+      <p>Um tempo depois, abri a <a href="https://www.instagram.com/streda.way" target="_blank" class="handle">@Streda.way</a>. Motivo simples: empreender dá mais trabalho que CLT, mas também dá mais dinheiro — e era isso que eu queria pra mim.</p>
+      <p>Hoje resolvi compartilhar tudo que aprendi nesse caminho. Anos de tentativa e erro não deveriam ficar só comigo.</p>
+      <p class="interesses">Fora o trabalho, sou gastronomia, família, acampamento e viagem. Isso também é parte de quem eu sou.</p>
+    </div>
+  </section>
+
+  <section class="wrap" id="escolha">
+    <div class="choice-head reveal">
+      <p class="eyebrow">Como posso te ajudar</p>
+      <h2>Escolha seu caminho</h2>
+    </div>
+
+    <a href="quiz-aulas.html" class="service-card learn reveal">
+      <span class="tag">Aulas ao vivo</span>
+      <h3>Quero aprender tráfego pago</h3>
+      <p>2 aulas comigo, individuais, do zero até campanha rodando.</p>
+      <span class="go">Começar →</span>
+    </a>
+
+    <a href="quiz-servico.html" class="service-card hire reveal">
+      <span class="tag">Gestão de tráfego</span>
+      <h3>Quero contratar meu serviço</h3>
+      <p>Eu cuido do tráfego pago da sua empresa, do jeito que faço no meu.</p>
+      <span class="go">Começar →</span>
+    </a>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <p class="footer-signature">Juliano Streda</p>
+  <div class="footer-links"><a href="https://www.instagram.com/julianostreda/" target="_blank" rel="noopener">Instagram</a></div>
+  <p class="footer-copy">© <span id="year"></span> Juliano Streda · Santa Rosa, RS</p>
+</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+const revealEls = document.querySelectorAll('.reveal');
+if ('IntersectionObserver' in window) {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  revealEls.forEach((el) => observer.observe(el));
+} else {
+  revealEls.forEach((el) => el.classList.add('is-visible'));
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gestão de Tráfego Pago — Juliano Streda</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F4ECDF;
+    --ink: #241E17;
+    --ink-soft: #665A4B;
+    --amber: #C1461B;
+    --amber-dark: #93340F;
+    --card: #FCF9F2;
+    --line: rgba(36, 30, 23, 0.14);
+    --shadow-card: 0 14px 32px -18px rgba(36, 30, 23, 0.32);
+    --font-display: "Fraunces", ui-serif, Georgia, serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+  h1, h2 { font-family: var(--font-display); font-weight: 600; }
+  .wrap { max-width: 480px; margin: 0 auto; padding: 22px; min-height: 100vh; display: flex; flex-direction: column; }
+
+  .top { display: flex; align-items: center; gap: 12px; margin-bottom: 26px; }
+  .back { color: var(--ink-soft); text-decoration: none; font-size: 20px; font-family: 'Inter', sans-serif; }
+  .progress-track { flex: 1; height: 6px; background: var(--line); border-radius: 4px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--amber); width: 11%; transition: width 0.3s ease; border-radius: 4px; }
+
+  .step { display: none; flex: 1; flex-direction: column; }
+  .step.active { display: flex; }
+
+  .step .eyebrow { font-size: 12.5px; color: var(--amber-dark); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; font-family: 'Inter', sans-serif; }
+  .step h2 { font-size: 25px; margin-bottom: 24px; line-height: 1.25; letter-spacing: -0.01em; }
+
+  input[type=text], input[type=tel] {
+    width: 100%;
+    padding: 16px 18px;
+    border-radius: 16px;
+    border: 1.5px solid var(--line);
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
+    background: var(--card);
+    color: var(--ink);
+    box-shadow: var(--shadow-card);
+  }
+  input:focus { outline: none; border-color: var(--amber); }
+
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .opt {
+    display: block;
+    padding: 17px 19px;
+    border-radius: 16px;
+    border: 1.5px solid var(--line);
+    background: var(--card);
+    font-size: 15.5px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    box-shadow: var(--shadow-card);
+  }
+  .opt.selected { border-color: var(--amber); background: #FBEADF; font-weight: 600; }
+
+  .nav { margin-top: auto; padding-top: 24px; }
+  .btn {
+    width: 100%;
+    padding: 17px;
+    border-radius: 999px;
+    border: none;
+    background: var(--amber);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+  }
+  .btn:disabled { opacity: 0.4; }
+  .btn.secondary { background: transparent; color: var(--ink-soft); font-weight: 500; margin-top: 10px; }
+
+  .review-item { padding: 13px 0; border-bottom: 1px solid var(--line); font-size: 14.5px; }
+  .review-item b { display: block; color: var(--ink-soft); font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 3px; font-family: 'Inter', sans-serif; }
+
+  .final-icon { font-size: 48px; text-align: center; margin-bottom: 16px; }
+  .final h2 { text-align: center; }
+  .final p { text-align: center; color: var(--ink-soft); font-size: 15px; margin-bottom: 26px; font-family: 'Inter', sans-serif; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="top">
+    <a href="index.html" class="back">←</a>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+
+  <form id="quizForm" style="flex:1; display:flex; flex-direction:column;">
+
+    <div class="step active" data-step="1">
+      <div class="eyebrow">Passo 1 de 9</div>
+      <h2>Como você se chama?</h2>
+      <input type="text" id="nome" placeholder="Seu nome" required>
+      <div class="nav"><button type="button" class="btn" onclick="nextStep()">Continuar</button></div>
+    </div>
+
+    <div class="step" data-step="2">
+      <div class="eyebrow">Passo 2 de 9</div>
+      <h2>Qual o nome da sua empresa?</h2>
+      <input type="text" id="empresa" placeholder="Nome da empresa" required>
+      <div class="nav"><button type="button" class="btn" onclick="nextStep()">Continuar</button></div>
+    </div>
+
+    <div class="step" data-step="3">
+      <div class="eyebrow">Passo 3 de 9</div>
+      <h2>Qual seu WhatsApp?</h2>
+      <input type="tel" id="whatsapp" placeholder="(00) 00000-0000" required>
+      <div class="nav"><button type="button" class="btn" onclick="nextStep()">Continuar</button></div>
+    </div>
+
+    <div class="step" data-step="4">
+      <div class="eyebrow">Passo 4 de 9</div>
+      <h2>Qual seu @ pessoal no Instagram?</h2>
+      <input type="text" id="instagramPessoal" placeholder="@seuinstagram" required>
+      <div class="nav"><button type="button" class="btn" onclick="nextStep()">Continuar</button></div>
+    </div>
+
+    <div class="step" data-step="5">
+      <div class="eyebrow">Passo 5 de 9</div>
+      <h2>Qual o @ da empresa no Instagram?</h2>
+      <input type="text" id="instagramEmpresa" placeholder="@suaempresa" required>
+      <div class="nav"><button type="button" class="btn" onclick="nextStep()">Continuar</button></div>
+    </div>
+
+    <div class="step" data-step="6">
+      <div class="eyebrow">Passo 6 de 9</div>
+      <h2>Qual o ramo da empresa?</h2>
+      <input type="text" id="ramo" placeholder="Ex: loja de produtos Apple" required>
+      <div class="nav"><button type="button" class="btn" onclick="nextStep()">Continuar</button></div>
+    </div>
+
+    <div class="step" data-step="7">
+      <div class="eyebrow">Passo 7 de 9</div>
+      <h2>Qual o faturamento anual da empresa?</h2>
+      <div class="options" data-field="faturamento">
+        <div class="opt" data-value="Até R$120 mil">Até R$120 mil</div>
+        <div class="opt" data-value="R$120 mil a R$500 mil">R$120 mil a R$500 mil</div>
+        <div class="opt" data-value="R$500 mil a R$1 milhão">R$500 mil a R$1 milhão</div>
+        <div class="opt" data-value="Acima de R$1 milhão">Acima de R$1 milhão</div>
+      </div>
+      <div class="nav"><button type="button" class="btn" id="btn7" disabled onclick="nextStep()">Continuar</button></div>
+    </div>
+
+    <div class="step" data-step="8">
+      <div class="eyebrow">Passo 8 de 9</div>
+      <h2>Já investiu em tráfego pago?</h2>
+      <div class="options" data-field="jaInvestiu">
+        <div class="opt" data-value="Nunca investi">Nunca investi</div>
+        <div class="opt" data-value="Já investi e não deu certo">Já investi e não deu certo</div>
+        <div class="opt" data-value="Invisto, mas quero melhorar">Invisto, mas quero melhorar</div>
+      </div>
+      <div class="nav"><button type="button" class="btn" id="btn8" disabled onclick="nextStep()">Continuar</button></div>
+    </div>
+
+    <div class="step" data-step="9">
+      <div class="eyebrow">Última pergunta</div>
+      <h2>Quanto investe hoje em anúncios por mês?</h2>
+      <div class="options" data-field="investeMes">
+        <div class="opt" data-value="Não invisto">Não invisto</div>
+        <div class="opt" data-value="Até R$500/mês">Até R$500/mês</div>
+        <div class="opt" data-value="R$500 a R$2.000/mês">R$500 a R$2.000/mês</div>
+        <div class="opt" data-value="Acima de R$2.000/mês">Acima de R$2.000/mês</div>
+      </div>
+      <div class="nav"><button type="button" class="btn" id="btn9" disabled onclick="nextStep()">Ver resumo</button></div>
+    </div>
+
+    <div class="step" data-step="10">
+      <div class="eyebrow">Confirme seus dados</div>
+      <h2>Tudo certo?</h2>
+      <div id="reviewBox"></div>
+      <div class="nav">
+        <button type="button" class="btn" onclick="submitQuiz()">Enviar pra mim no WhatsApp</button>
+        <button type="button" class="btn secondary" onclick="prevStep()">Voltar e corrigir</button>
+      </div>
+    </div>
+
+    <div class="step final" data-step="11">
+      <div class="final-icon">✅</div>
+      <h2>Prontinho!</h2>
+      <p>Se o WhatsApp não abriu automaticamente, é só tocar no botão abaixo.</p>
+      <div class="nav">
+        <a id="waLink" class="btn" style="display:block; text-align:center; text-decoration:none;" target="_blank">Abrir WhatsApp</a>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+<script>
+  const WEB3FORMS_ACCESS_KEY = "COLOQUE_SUA_ACCESS_KEY_AQUI";
+  const WHATSAPP_NUMBER = "5555996457820";
+
+  let currentStep = 1;
+  const totalSteps = 10;
+  const answers = {};
+
+  document.querySelectorAll('.options').forEach(group => {
+    const field = group.dataset.field;
+    group.querySelectorAll('.opt').forEach(opt => {
+      opt.addEventListener('click', () => {
+        group.querySelectorAll('.opt').forEach(o => o.classList.remove('selected'));
+        opt.classList.add('selected');
+        answers[field] = opt.dataset.value;
+        const stepEl = group.closest('.step');
+        const btn = stepEl.querySelector('.btn');
+        if (btn) btn.disabled = false;
+      });
+    });
+  });
+
+  function updateProgress() {
+    const pct = Math.min((currentStep / totalSteps) * 100, 100);
+    document.getElementById('progressFill').style.width = pct + '%';
+  }
+
+  function showStep(n) {
+    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    document.querySelector('.step[data-step="' + n + '"]').classList.add('active');
+    updateProgress();
+  }
+
+  function nextStep() {
+    if (currentStep === 1) answers.nome = document.getElementById('nome').value.trim();
+    if (currentStep === 2) answers.empresa = document.getElementById('empresa').value.trim();
+    if (currentStep === 3) answers.whatsapp = document.getElementById('whatsapp').value.trim();
+    if (currentStep === 4) answers.instagramPessoal = document.getElementById('instagramPessoal').value.trim();
+    if (currentStep === 5) answers.instagramEmpresa = document.getElementById('instagramEmpresa').value.trim();
+    if (currentStep === 6) answers.ramo = document.getElementById('ramo').value.trim();
+
+    if (currentStep === 1 && !answers.nome) return;
+    if (currentStep === 2 && !answers.empresa) return;
+    if (currentStep === 3 && !answers.whatsapp) return;
+    if (currentStep === 4 && !answers.instagramPessoal) return;
+    if (currentStep === 5 && !answers.instagramEmpresa) return;
+    if (currentStep === 6 && !answers.ramo) return;
+
+    if (currentStep === 9) buildReview();
+
+    currentStep++;
+    showStep(currentStep);
+  }
+
+  function prevStep() {
+    currentStep = 1;
+    showStep(currentStep);
+  }
+
+  function buildReview() {
+    const box = document.getElementById('reviewBox');
+    box.innerHTML = `
+      <div class="review-item"><b>Nome</b>${answers.nome}</div>
+      <div class="review-item"><b>Empresa</b>${answers.empresa}</div>
+      <div class="review-item"><b>WhatsApp</b>${answers.whatsapp}</div>
+      <div class="review-item"><b>Instagram pessoal</b>${answers.instagramPessoal}</div>
+      <div class="review-item"><b>Instagram da empresa</b>${answers.instagramEmpresa}</div>
+      <div class="review-item"><b>Ramo</b>${answers.ramo}</div>
+      <div class="review-item"><b>Faturamento anual</b>${answers.faturamento}</div>
+      <div class="review-item"><b>Já investiu em tráfego</b>${answers.jaInvestiu}</div>
+      <div class="review-item"><b>Investimento mensal atual</b>${answers.investeMes}</div>
+    `;
+  }
+
+  function buildMessage() {
+    return `Oi Juliano! Quero saber mais sobre a gestão de tráfego pago pra minha empresa.\n\n` +
+      `Nome: ${answers.nome}\n` +
+      `Empresa: ${answers.empresa}\n` +
+      `Instagram pessoal: ${answers.instagramPessoal}\n` +
+      `Instagram da empresa: ${answers.instagramEmpresa}\n` +
+      `Ramo: ${answers.ramo}\n` +
+      `Faturamento anual: ${answers.faturamento}\n` +
+      `Já investiu em tráfego: ${answers.jaInvestiu}\n` +
+      `Investimento mensal atual: ${answers.investeMes}`;
+  }
+
+  async function submitQuiz() {
+    const message = buildMessage();
+    const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+
+    document.getElementById('waLink').href = waUrl;
+    currentStep = 11;
+    showStep(currentStep);
+
+    if (WEB3FORMS_ACCESS_KEY && WEB3FORMS_ACCESS_KEY !== "COLOQUE_SUA_ACCESS_KEY_AQUI") {
+      fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          subject: "Novo lead — Gestão de Tráfego Pago",
+          from_name: answers.nome,
+          ...answers
+        })
+      }).catch(() => {});
+    }
+
+    window.open(waUrl, '_blank');
+  }
+</script>
+</body>
+</html>
