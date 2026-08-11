@@ -21,6 +21,7 @@
   --accent: #C1461B;
   --accent-dark: #93340F;
   --blue: #4F7C9C;
+  --blue-dark: #3C6178;
   --line: rgba(36, 30, 23, 0.14);
 
   --font-display: "Fraunces", ui-serif, Georgia, serif;
@@ -116,7 +117,7 @@ section { padding: 60px 0; }
   border-radius: var(--radius-lg);
   overflow: hidden;
   box-shadow: var(--shadow-card);
-  margin-bottom: 26px;
+  margin-top: 28px;
   background: var(--card);
 }
 .hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 25%; }
@@ -143,20 +144,9 @@ section { padding: 60px 0; }
 
 /* ABOUT */
 .about { padding-top: 20px; }
-.about-photo {
-  width: 100%;
-  aspect-ratio: 3/4;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  box-shadow: var(--shadow-card);
-  margin-bottom: 28px;
-  background: var(--card);
-}
-.about-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 25%; }
-
 .about p { color: var(--ink-soft); font-size: 15.8px; }
-.about .interesses { font-style: italic; color: var(--ink-soft); }
-.about a.handle { color: var(--accent-dark); font-weight: 600; text-decoration: none; border-bottom: 1.5px solid rgba(193,70,27,0.35); }
+.about .highlight { color: var(--accent-dark); font-weight: 700; }
+.about .closing { color: var(--ink); font-weight: 600; font-size: 17px; margin-top: 26px; }
 
 /* CHOICE / SERVICES */
 .choice-head { text-align: center; margin-bottom: 30px; }
@@ -185,7 +175,7 @@ section { padding: 60px 0; }
   font-weight: 700;
   color: var(--accent);
 }
-.service-card.hire .tag { color: var(--navy-soft); }
+.service-card.hire .tag { color: var(--blue-dark); }
 .service-card h3 { font-size: 21px; margin-bottom: 2px; }
 .service-card p { color: var(--ink-soft); font-size: 15px; margin-bottom: 2px; }
 .service-card .go {
@@ -195,8 +185,8 @@ section { padding: 60px 0; }
   font-size: 14.5px;
   margin-top: 6px;
 }
-.service-card.hire .go { color: var(--navy-soft); }
-.service-card.hire { border-color: rgba(30,39,50,0.18); }
+.service-card.hire .go { color: var(--blue-dark); }
+.service-card.hire { border-color: rgba(79,124,156,0.25); }
 
 /* FOOTER */
 .site-footer {
@@ -222,9 +212,6 @@ section { padding: 60px 0; }
 <main>
 
   <section class="hero wrap" id="hero">
-    <div class="hero-photo reveal">
-      <img src="foto-sacada.jpg" alt="Juliano Streda" onerror="this.parentElement.style.display='none'">
-    </div>
     <div class="reveal">
       <p class="eyebrow">Tráfego pago &amp; vendas</p>
       <h1>Juliano Streda</h1>
@@ -236,35 +223,36 @@ section { padding: 60px 0; }
       </ul>
       <p style="font-weight:600; color:var(--ink);">Hoje ensino empresários e futuros gestores de tráfego tudo que eu sei sobre vendas e tráfego pago.</p>
     </div>
+    <div class="hero-photo reveal">
+      <img src="foto-sacada.jpg" alt="Juliano Streda" onerror="this.parentElement.style.display='none'">
+    </div>
   </section>
 
   <section class="about wrap" id="sobre">
     <div class="reveal">
-      <p>Virei vendedor por necessidade, não por vocação. Aprendi na marra — literalmente batendo de porta em porta vendendo internet numa empresa de telecom. Foi ali que entendi: vendas não é um bico, é profissão pra vida toda.</p>
-      <p>O tráfego pago entrou depois, quando tentei vender infoproduto e percebi que precisava aprender a atrair gente antes de vender pra ela.</p>
-      <p>Um tempo depois, abri a <a href="https://www.instagram.com/streda.way" target="_blank" class="handle">@Streda.way</a>. Motivo simples: empreender dá mais trabalho que CLT, mas também dá mais dinheiro — e era isso que eu queria pra mim.</p>
-      <p>Hoje resolvi compartilhar tudo que aprendi nesse caminho. Anos de tentativa e erro não deveriam ficar só comigo.</p>
-      <p class="interesses">Fora o trabalho, sou gastronomia, família, acampamento e viagem. Isso também é parte de quem eu sou.</p>
+      <p>Comecei aprender sobre vendas enquanto panfletava e batia de porta em porta vendendo internet para um provedor local no interior do Rio Grande do Sul. Percebi que pessoas compram de pessoas e, que todo mundo gosta de atenção.</p>
+      <p>Abri meu próprio negócio em casa, como a maioria dos brasileiros corajosos, a minha loja de produtos Apple já faturou mais de 2.4mi em 4 anos. Junto com a loja veio <span class="highlight">a necessidade de gerar demanda</span>, e foi aí que eu aprendi a habilidade dos anúncios online, mais conhecido por você como tráfego pago.</p>
+      <p>Hoje compartilho com empresários tudo que aprendi ao longo desses 8 anos de experiência entre venda e tráfego pago.</p>
+      <p class="closing">Mas agora me diz aí, como eu posso te ajudar?</p>
     </div>
   </section>
 
   <section class="wrap" id="escolha">
     <div class="choice-head reveal">
-      <p class="eyebrow">Como posso te ajudar</p>
       <h2>Escolha seu caminho</h2>
     </div>
 
     <a href="quiz-aulas.html" class="service-card learn reveal">
       <span class="tag">Aulas ao vivo</span>
-      <h3>Quero aprender tráfego pago</h3>
-      <p>2 aulas comigo, individuais, do zero até campanha rodando.</p>
+      <h3>Quero aprender tráfego pago para meu negócio</h3>
+      <p>2 aulas ao vivo, individuais, do zero até os primeiros clientes.</p>
       <span class="go">Começar →</span>
     </a>
 
     <a href="quiz-servico.html" class="service-card hire reveal">
       <span class="tag">Gestão de tráfego</span>
-      <h3>Quero contratar meu serviço</h3>
-      <p>Eu cuido do tráfego pago da sua empresa, do jeito que faço no meu.</p>
+      <h3>Contrate meu serviço</h3>
+      <p>Deixe seu tráfego pago nas minhas mãos.</p>
       <span class="go">Começar →</span>
     </a>
   </section>
