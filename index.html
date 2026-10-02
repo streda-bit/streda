@@ -691,7 +691,7 @@
       </div>
       <h3>Aula em grupo</h3>
       <p class="produto-desc">Quando fechar 10 alunos, a gente define juntos a melhor data e horário pra todo mundo. Você aprende ao lado de outros empreendedores no mesmo momento que você.</p>
-      <button class="btn-produto btn-ghost" onclick="abrirSheet('sheet-turma')">Reservar vaga na turma</button>
+      <button class="btn-produto btn-ghost" onclick="irParaCheckout('turma')">Reservar vaga na turma</button>
     </div>
 
     <div class="produto reveal reveal-delay-3">
@@ -701,7 +701,7 @@
       </div>
       <h3>Aula particular</h3>
       <p class="produto-desc">Para quem tem urgência ou prefere atenção 100% focada no seu negócio. Responda algumas perguntas rápidas e eu entro em contato.</p>
-      <button class="btn-produto btn-dark" onclick="abrirSheet('sheet-individual')">Quero fazer individual</button>
+      <button class="btn-produto btn-dark" onclick="irParaCheckout('individual')">Quero fazer individual</button>
     </div>
 
   </div>
@@ -859,6 +859,31 @@
 
   document.getElementById('form-turma').addEventListener('submit', e => { e.preventDefault(); enviar('form-turma','btn-t','ok-turma'); });
   document.getElementById('form-ind').addEventListener('submit', e => { e.preventDefault(); enviar('form-ind','btn-i','ok-ind'); });
+
+  async function irParaCheckout(produto) {
+    try {
+      const btn = document.querySelector(`[onclick="irParaCheckout('${produto}')"]`);
+      const textoOriginal = btn.textContent;
+      btn.textContent = 'Aguarde...';
+      btn.disabled = true;
+
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ produto })
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        btn.textContent = textoOriginal;
+        btn.disabled = false;
+        alert('Erro ao abrir checkout. Tenta de novo.');
+      }
+    } catch {
+      alert('Erro ao abrir checkout. Tenta de novo.');
+    }
+  }
 </script>
 </body>
 </html>
