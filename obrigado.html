@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Pagamento confirmado — Arroz, Feijão e Tráfego</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #fafaf9;
+      --white: #ffffff;
+      --text: #18181b;
+      --text-2: #71717a;
+      --text-3: #a1a1aa;
+      --accent: #c94a08;
+      --accent-soft: rgba(201,74,8,0.08);
+      --border: #e4e4e7;
+      --surface: #f4f4f5;
+      --green: #16a34a;
+      --green-soft: rgba(22,163,74,0.08);
+      --radius: 14px;
+      --max: 480px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', -apple-system, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1);
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+    .d1 { transition-delay: 0.1s; }
+    .d2 { transition-delay: 0.2s; }
+    .d3 { transition-delay: 0.3s; }
+    .d4 { transition-delay: 0.4s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+    }
+
+    main {
+      flex: 1;
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 60px 24px 48px;
+      width: 100%;
+    }
+
+    /* ── SUCESSO ── */
+    .success-badge {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--green-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      margin-bottom: 24px;
+    }
+
+    .success-title {
+      font-size: clamp(26px, 6vw, 34px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 12px;
+    }
+
+    .success-sub {
+      font-size: 16px;
+      color: var(--text-2);
+      line-height: 1.65;
+      margin-bottom: 36px;
+    }
+
+    /* ── AVISO 24H ── */
+    .aviso {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 16px 18px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 36px;
+    }
+
+    .aviso-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+
+    .aviso-text {
+      font-size: 14px;
+      color: var(--text-2);
+      line-height: 1.55;
+    }
+
+    .aviso-text strong { color: var(--text); font-weight: 600; }
+
+    /* ── FORM ── */
+    .form-title {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+
+    .form-sub {
+      font-size: 14px;
+      color: var(--text-2);
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    .field { margin-bottom: 14px; }
+
+    .field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+
+    .field input,
+    .field textarea,
+    .field select {
+      width: 100%;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 15px;
+      color: var(--text);
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.15s;
+      -webkit-appearance: none;
+    }
+
+    .field input:focus,
+    .field textarea:focus,
+    .field select:focus { border-color: var(--accent); }
+
+    .field input::placeholder,
+    .field textarea::placeholder { color: var(--text-3); }
+
+    .btn-send {
+      width: 100%;
+      background: var(--text);
+      color: #fff;
+      font-size: 15px;
+      font-weight: 600;
+      padding: 15px;
+      border-radius: 980px;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      margin-top: 8px;
+      transition: opacity 0.15s;
+    }
+    .btn-send:hover { opacity: 0.82; }
+    .btn-send:disabled { opacity: 0.4; cursor: default; }
+
+    /* ── SUCESSO FORM ── */
+    .form-ok {
+      display: none;
+      text-align: center;
+      padding: 32px 0 16px;
+    }
+
+    .form-ok .icon { font-size: 44px; margin-bottom: 14px; }
+
+    .form-ok h3 {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+
+    .form-ok p {
+      font-size: 15px;
+      color: var(--text-2);
+      line-height: 1.6;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 24px;
+      font-size: 12px;
+      color: var(--text-3);
+    }
+  </style>
+</head>
+<body>
+
+<main>
+
+  <!-- CONFIRMAÇÃO -->
+  <div class="success-badge reveal">✅</div>
+  <h1 class="success-title reveal d1">Pagamento<br>confirmado.</h1>
+  <p class="success-sub reveal d2">Boa decisão. Agora deixa seus dados abaixo pra eu entrar em contato e alinhar os próximos passos com você.</p>
+
+  <!-- AVISO 24H -->
+  <div class="aviso reveal d2">
+    <span class="aviso-icon">⏱</span>
+    <p class="aviso-text"><strong>Em até 24 horas</strong> entrarei em contato pelo WhatsApp pra confirmar sua vaga e combinar os detalhes.</p>
+  </div>
+
+  <!-- FORMULÁRIO -->
+  <div class="reveal d3">
+    <p class="form-title">Seus dados</p>
+    <p class="form-sub">Preenche rapidinho pra eu já ter tudo que preciso antes de te chamar.</p>
+
+    <form id="form-pos">
+      <input type="hidden" name="access_key" value="36c33878-46b2-4abe-9edb-8d35fc097373" />
+      <input type="hidden" name="subject" value="Novo aluno confirmado — Arroz Feijão e Tráfego" />
+
+      <div class="field">
+        <label>Nome completo</label>
+        <input type="text" name="nome" placeholder="Seu nome completo" required />
+      </div>
+
+      <div class="field">
+        <label>WhatsApp</label>
+        <input type="tel" name="whatsapp" placeholder="(00) 00000-0000" required />
+      </div>
+
+      <div class="field">
+        <label>@ do Instagram</label>
+        <input type="text" name="instagram" placeholder="@seuperfil" />
+      </div>
+
+      <div class="field">
+        <label>Qual é o seu modelo de negócio?</label>
+        <input type="text" name="negocio" placeholder="Ex: loja de roupas, clínica estética, restaurante..." required />
+      </div>
+
+      <button type="submit" class="btn-send" id="btn-pos">Enviar meus dados</button>
+    </form>
+
+    <div class="form-ok" id="form-ok">
+      <div class="icon">🙌</div>
+      <h3>Tudo certo!</h3>
+      <p>Recebi seus dados. Te chamo no WhatsApp em breve pra a gente alinhar tudo.</p>
+    </div>
+  </div>
+
+</main>
+
+<footer>Arroz, Feijão e Tráfego · Juliano Streda</footer>
+
+<script>
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  document.getElementById('form-pos').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = document.getElementById('btn-pos');
+    btn.disabled = true;
+    btn.textContent = 'Enviando...';
+    try {
+      const r = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: new FormData(this) });
+      const d = await r.json();
+      if (d.success) {
+        this.style.display = 'none';
+        document.getElementById('form-ok').style.display = 'block';
+      } else {
+        btn.textContent = 'Erro, tenta de novo';
+        btn.disabled = false;
+      }
+    } catch {
+      btn.textContent = 'Erro, tenta de novo';
+      btn.disabled = false;
+    }
+  });
+</script>
+</body>
+</html>
