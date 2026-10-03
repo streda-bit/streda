@@ -39,6 +39,7 @@ module.exports = async (req, res) => {
 
     res.status(200).json({ url: session.url });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error('Stripe error:', err.message, err.type, err.code);
+    res.status(500).json({ error: err.message, type: err.type, code: err.code });
   }
 };
