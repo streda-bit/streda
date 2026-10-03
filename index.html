@@ -842,6 +842,31 @@
   }
 
   // Form submit
+  async function irParaCheckout(produto) {
+    try {
+      const btn = document.querySelector(`[onclick="irParaCheckout('${produto}')"]`);
+      const textoOriginal = btn.textContent;
+      btn.textContent = 'Aguarde...';
+      btn.disabled = true;
+
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ produto })
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        btn.textContent = textoOriginal;
+        btn.disabled = false;
+        alert('Erro ao abrir checkout. Tenta de novo.');
+      }
+    } catch {
+      alert('Erro ao abrir checkout. Tenta de novo.');
+    }
+  }
+
   async function enviar(formId, btnId, okId) {
     const form = document.getElementById(formId);
     const btn  = document.getElementById(btnId);
