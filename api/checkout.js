@@ -5,25 +5,27 @@ module.exports = async (req, res) => {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { produto } = req.body;
+  const { produto, metodo } = req.body;
 
-  const produtos = {
+  const precos = {
     turma: {
-      name: 'Aula em Grupo — Arroz, Feijão e Tráfego',
-      amount: 75000, // R$750 em centavos
+      pix:    { amount: 79000,  name: 'Aula em Grupo — Arroz, Feijão e Tráfego (Pix)' },
+      cartao: { amount: 98700,  name: 'Aula em Grupo — Arroz, Feijão e Tráfego (Cartão)' },
     },
     individual: {
-      name: 'Aula Individual — Arroz, Feijão e Tráfego',
-      amount: 119000, // R$1.190 em centavos
+      pix:    { amount: 129000, name: 'Aula Individual — Arroz, Feijão e Tráfego (Pix)' },
+      cartao: { amount: 148700, name: 'Aula Individual — Arroz, Feijão e Tráfego (Cartão)' },
     },
   };
 
-  const item = produtos[produto];
-  if (!item) return res.status(400).json({ error: 'Produto inválido' });
+  const item = precos[produto]?.[metodo];
+  if (!item) return res.status(400).json({ error: 'Produto ou método inválido' });
+
+  const payment_method_types = metodo === 'pix' ? ['pix'] : ['card'];
 
   try {
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card', 'pix'],
+      payment_method_types,
       line_items: [{
         price_data: {
           currency: 'brl',
@@ -40,6 +42,6 @@ module.exports = async (req, res) => {
     res.status(200).json({ url: session.url });
   } catch (err) {
     console.error('Stripe error:', err.message, err.type, err.code);
-    res.status(500).json({ error: err.message, type: err.type, code: err.code });
+    res.status(500).json({ error: err.message });
   }
 };
